@@ -1,0 +1,2 @@
+# EmotiRate
+Mini Project
