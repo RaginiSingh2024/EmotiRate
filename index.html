@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welcome to EmotiRate</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      overflow: hidden;
+      height: 100vh;
+      background: linear-gradient(to right, #ff9a00, #ff512f);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      font-family: sans-serif;
+    }
+    
+    .get-started-btn {
+      padding: 20px 40px;
+      font-size: 24px;
+      font-weight: bold;
+      background-color: #fc3718;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      z-index: 10;
+      transition: transform 0.3s ease;
+    }
+
+    .get-started-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .emoji {
+      position: absolute;
+      top: -50px;
+      font-size: 30px;
+      animation: fall 10s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(120vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+   
+  </style>
+</head>
+<body>
+  <button class="get-started-btn" onclick="location.href='emotirate.html'">Get Started</button>
+
+
+
+
+  
+
+  <script>
+    const emojis = ['😊', '😂', '😍', '😎', '🤩', '😜', '🙃', '😇', '🥳', '🤗'];
+
+    function createEmoji() {
+      const emoji = document.createElement('div');
+      emoji.classList.add('emoji');
+      emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+      emoji.style.left = `${Math.random() * 100}vw`;
+      emoji.style.fontSize = `${20 + Math.random() * 30}px`;
+      emoji.style.animationDuration = `${5 + Math.random() * 5}s`;
+
+      document.body.appendChild(emoji);
+
+      setTimeout(() => {
+        emoji.remove();
+      }, 10000);
+    }
+
+    setInterval(createEmoji, 300);
+  </script>
+</body>
+</html>
