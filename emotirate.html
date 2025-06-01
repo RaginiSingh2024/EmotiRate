@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EmotiRate</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(orange,orangered);
+            padding: 20px;
+        }
+
+        h2 {
+            margin-top: 40px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .scroll-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 10px 0;
+        }
+
+        .item {
+            flex: 0 0 auto;
+            width: 180px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            text-align: center;
+        }
+
+        .item img {
+            width: 100%;
+            border-radius: 8px;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .item-name {
+            font-size: 16px;
+            margin: 8px 0;
+        }
+
+        .stars span {
+            font-size: 22px;
+            cursor: pointer;
+            color: gray;
+        }
+
+        .emoji-face {
+            font-size: 28px;
+            margin-top: 5px;
+        }
+
+        ::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+     
+    <h1 style="text-align: center; font-size: 40px; color: white; text-shadow: 2px 2px #555;">EmotiRate: Mood-Based Product Rating</h1>
+
+    <h2>🍔 Food Section</h2>
+    <div class="section scroll-container" id="food-section"></div>
+
+    <h2>👕 Clothes Section</h2>
+    <div class="section scroll-container" id="clothes-section"></div>
+
+    <h2>🏝️ Visit Places Section</h2>
+    <div class="section scroll-container" id="places-section"></div>
+
+    <h2>🎨 Favourite color</h2>
+    <div class="section scroll-container" id="color-section"></div>
+
+    <script>
+        const emojiMap = {
+            1: { emoji: '😠', color: 'red' },
+            2: { emoji: '😟', color: 'orange' },
+            3: { emoji: '😐', color: 'gold' },
+            4: { emoji: '😊', color: 'lightgreen' },
+            5: { emoji: '😍', color: 'green' },
+        };
+
+        const foodItems = [
+      { name: "Pizza", img: "https://i.pinimg.com/736x/b2/24/a0/b224a06406a5d50a1ea9cb4aaf63f856.jpg" },
+      { name: "Burger", img: "https://i.pinimg.com/736x/ae/a7/76/aea77686ef7abd6b426332cf3018e095.jpg" },
+      { name: "Pasta", img: "https://i.pinimg.com/736x/24/d3/62/24d362c6c549820edada6ed8b85b55a9.jpg" },
+      { name: "Sushi", img: "https://i.pinimg.com/736x/09/15/1d/09151d0100060e1de5165623865f2c2b.jpg" },
+      { name: "Ice Cream", img: "https://i.pinimg.com/736x/c6/5b/60/c65b60705ee905052abf6eb5e143b005.jpg" },
+      { name: "Fries", img: "https://i.pinimg.com/736x/73/7e/d9/737ed93987aae98a76fc2e5f12fc0ecc.jpg" },
+      { name: "Salad", img: "https://i.pinimg.com/736x/8c/24/3c/8c243cc8e49925b96f1cac71cd39de6d.jpg" },
+      { name: "Steak", img: "https://i.pinimg.com/736x/e6/48/ea/e648ea49a83d3e177137588ee4974ddc.jpg" },
+      { name: "Tacos", img: "https://i.pinimg.com/736x/db/c4/c0/dbc4c003d5674030efe2173d2b8dcbce.jpg" },
+      { name: "Soup", img: "https://i.pinimg.com/736x/03/85/c9/0385c9ec68fd13a035948279e23839ff.jpg" }
+    ];
+
+    const clothesItems = [
+      { name: "T-Shirt", img: "https://i.pinimg.com/736x/29/e2/32/29e2324747c83375ea94304baefe9f72.jpg" },
+      { name: "Dress", img: "https://i.pinimg.com/736x/43/d2/20/43d220ad5a8e639fbd5bb1db9d4be742.jpg" },
+      { name: "Jeans", img: "https://i.pinimg.com/736x/bc/27/a1/bc27a1e218c5595a05610b14fbd9f6eb.jpg" },
+      { name: "Jacket", img: "https://i.pinimg.com/736x/f3/68/e4/f368e49e4e1fc6fd0d4a8d24496e1c93.jpg" },
+      { name: "Sweater", img: "https://i.pinimg.com/736x/be/60/45/be6045316cae0f1947a1322a9bcf6cc9.jpg" },
+      { name: "Shorts", img: "https://i.pinimg.com/736x/fc/d4/03/fcd4032392760e1f106b1dabb6306e95.jpg" },
+      { name: "Hoodie", img: "https://i.pinimg.com/736x/bc/cb/a9/bccba9e698e8280e89ffc29b953886fa.jpg" },
+      { name: "Skirt", img: "https://i.pinimg.com/736x/a2/a4/3d/a2a43dbaa43a572006b6c49b98c32627.jpg" },
+      { name: "Shoes", img: "https://i.pinimg.com/736x/5f/28/f7/5f28f7bb6acc24cb1c978280a4bf6beb.jpg" },
+      { name: "Blazer", img: "https://i.pinimg.com/736x/64/1c/d4/641cd4f211c308e202b521738872f808.jpg" }
+    ];
+
+    const placesItems = [
+      { name: "Beach", img: "https://i.pinimg.com/736x/db/6e/63/db6e63c61072b3065def3d69b3d18faf.jpg" },
+      { name: "Mountain", img: "https://i.pinimg.com/736x/fc/d1/60/fcd1604e02acc2a3cc148e258100a4e4.jpg" },
+      { name: "Paris", img: "https://i.pinimg.com/736x/6d/ef/9a/6def9a886ef69233fea336d81e036390.jpg" },
+      { name: "Tokyo", img: "https://i.pinimg.com/736x/b1/3f/75/b13f753f5b64f66b7601f0de6f76a83f.jpg" },
+      { name: "New York", img: "https://i.pinimg.com/736x/20/32/54/203254b9ec32a80b6f987c1a8b21559b.jpg" },
+      { name: "Desert", img: "https://i.pinimg.com/736x/bb/94/aa/bb94aaaf44014670939f68713734f6cb.jpg" },
+      { name: "Forest", img: "https://i.pinimg.com/736x/bb/94/aa/bb94aaaf44014670939f68713734f6cb.jpg" },
+      { name: "Waterfall", img: "https://i.pinimg.com/736x/fc/05/32/fc05327d827b2c9414a7d1e0a6195e8a.jpg" },
+      { name: "Village", img: "https://i.pinimg.com/736x/58/e1/4a/58e14a9c01e6bf5c2d3655d68c0cf53a.jpg" },
+      { name: "Temple", img: "https://i.pinimg.com/736x/e7/ba/48/e7ba4805aee4161e7fae8e14bcd64b1b.jpg" }
+    ];
+
+    const colorItems = [
+    { name: "Black", img: "https://i.pinimg.com/736x/34/99/1c/34991c216f9485923e6899de49841801.jpg" },
+    { name: "Red", img: "https://i.pinimg.com/736x/bd/5c/0a/bd5c0a10389696b4c98989e937523c87.jpg" },
+    { name: "Yellow", img: "https://i.pinimg.com/736x/85/d4/5a/85d45accced4d0edce2a7543e6a0fbc3.jpg" },
+    { name: "White", img: "https://i.pinimg.com/736x/1e/3a/e0/1e3ae01e0674b6f48ca351f33082875e.jpg" },
+    { name: "Pink", img: "https://i.pinimg.com/736x/72/32/cf/7232cf3e96d62a9161bd54fb7168670b.jpg" },
+    { name: "Purple", img: "https://i.pinimg.com/736x/81/1c/1d/811c1d83672dc936d848d9d2341c21b5.jpg" },
+    { name: "Green", img: "https://i.pinimg.com/736x/81/1f/cb/811fcb6c5028f0b969b9bce656a4b52b.jpg" },
+    { name: "Grey", img: "https://i.pinimg.com/736x/f3/3d/52/f33d52baeb8aae4b8cc7031d42663a0d.jpg" },
+    { name: "Blue", img: "https://i.pinimg.com/736x/32/75/e5/3275e5eba25a31995f3cb254f830cc54.jpg" },
+    { name: "Orange", img: "https://i.pinimg.com/736x/54/c1/5c/54c15c29b91ab6dce615693169acf8cd.jpg" }
+];
+
+        function createItemHTML(item, index, section) {
+            return `
+        <div class="item">
+          <img src="${item.img}" alt="${item.name}">
+          <div class="item-name">${item.name}</div>
+          <div class="stars" data-id="${section}-${index}">
+            <span data-value="1">&#9733;</span>
+            <span data-value="2">&#9733;</span>
+            <span data-value="3">&#9733;</span>
+            <span data-value="4">&#9733;</span>
+            <span data-value="5">&#9733;</span>
+          </div>
+          <div class="emoji-face" id="emoji-${section}-${index}">🙂</div>
+        </div>`;
+        }
+
+        function renderItems(items, containerId, section) {
+            const container = document.getElementById(containerId);
+            items.forEach((item, index) => {
+                container.innerHTML += createItemHTML(item, index, section);
+            });
+        }
+
+        // Render sections
+        renderItems(foodItems, 'food-section', 'food');
+        renderItems(clothesItems, 'clothes-section', 'clothes');
+        renderItems(placesItems, 'places-section', 'places');
+        renderItems(colorItems, 'color-section', 'color')
+
+        // Rating functionality
+        document.addEventListener('click', function (e) {
+            if (e.target.matches('.stars span')) {
+                const span = e.target;
+                const rating = parseInt(span.getAttribute('data-value'));
+                const container = span.parentElement;
+                const id = container.getAttribute('data-id');
+                const emoji = document.getElementById(`emoji-${id}`);
+
+
+                const { emoji: emojiSymbol, color } = emojiMap[rating];
+
+                container.querySelectorAll('span').forEach(s => {
+                    s.classList.remove('selected');
+                    s.style.color = 'gray'; // reset
+                    if (parseInt(s.getAttribute('data-value')) <= rating) {
+                        s.classList.add('selected');
+                        s.style.color = color; // apply rating color
+                    }
+                });
+
+                emoji.textContent = emojiSymbol;
+                emoji.style.color = color;
+
+            }
+        });
+    </script>
+
+</body>
+
+</html>
